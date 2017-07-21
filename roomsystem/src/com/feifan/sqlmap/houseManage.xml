@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+    namespace="houseManage">
+
+    <typeAlias
+        alias="houseManageSelectInputSelectParamBean"
+        type="com.feifan.housemanage.sqlbean.HouseManageSelectInputSelectParamBean" />
+    <typeAlias
+        alias="houseManageSelectInputSelectResultBean"
+        type="com.feifan.housemanage.sqlbean.HouseManageSelectInputSelectResultBean" />
+    <typeAlias
+        alias="houseManageCreateConfirmValidateParamBean"
+        type="com.feifan.housemanage.sqlbean.HouseManageCreateConfirmValidateParamBean" />
+    <typeAlias
+        alias="houseManageCreateConfirmExecuteParamBean"
+        type="com.feifan.housemanage.sqlbean.HouseManageCreateConfirmExecuteParamBean" />
+    <typeAlias
+        alias="houseManageModifyConfirmExecuteParamBean"
+        type="com.feifan.housemanage.sqlbean.HouseManageModifyConfirmExecuteParamBean" />
+    <typeAlias
+        alias="houseManageDeleteConfirmExecuteParamBean"
+        type="com.feifan.housemanage.sqlbean.HouseManageDeleteConfirmExecuteParamBean" />    
+    
+    <select
+        parameterClass="houseManageSelectInputSelectParamBean"
+        resultClass="houseManageSelectInputSelectResultBean"
+        id="houseManageSelectInputSelect">
+		select id,
+		       house_num,
+		       building_num,
+		       floor_num,
+		       house_type,
+		       house_towards,
+		       allow_num,
+		       comment
+        from   base_house_manage a
+        where  a.house_num like #house_num#
+		<isNotEmpty property="building_num" prepend="and">
+			   a.building_num = #building_num#
+		</isNotEmpty>
+		<isNotEmpty property="floor_num" prepend="and">
+			   a.floor_num = #floor_num#
+		</isNotEmpty>
+       	and    a.delete_flag = ''
+        order  by building_num,
+                  floor_num,
+                  house_num
+    </select>
+    <select
+        parameterClass="houseManageCreateConfirmValidateParamBean"
+        resultClass="Integer"
+        id="houseManageCreateConfirmValidate">
+        select count(*)
+        from   base_house_manage
+        where  house_num = #house_num#
+        and    building_num = #building_num#
+        and    floor_num = #floor_num#
+        and    delete_flag = ''
+    </select>
+    <insert
+        id="houseManageCreateConfirmExecute"
+        parameterClass="houseManageCreateConfirmExecuteParamBean">
+        insert into base_house_manage
+          (house_num,
+           building_num,
+           floor_num,
+           house_type,
+           house_towards,
+           allow_num,
+           water_meter,
+           comment,
+           lastupdated_operator)
+          select #house_num#,
+                 #building_num#,
+                 #floor_num#,
+                 #house_type#,
+                 #house_towards#,
+                 #allow_num#,
+                 '0',
+                 #comment#,
+                 #lastupdated_operator#
+          from   dual
+          where  not exists (select *
+                  from   base_house_manage
+                  where  house_num = #house_num#
+                  and    building_num = #building_num#
+                  and    floor_num = #floor_num#
+                  and    delete_flag = '')
+    </insert>
+    <select
+        parameterClass="String"
+        resultClass="Integer"
+        id="houseManageModifyConfirmValidate">
+        select count(*)
+        from   business_live_manage
+        where  house_id = #id#
+        and    delete_flag = ''
+    </select>
+    <update
+        id="houseManageModifyConfirmExecute"
+        parameterClass="houseManageModifyConfirmExecuteParamBean">
+        <![CDATA[
+        update base_house_manage
+        set    house_num            = #house_num#,
+               building_num         = #building_num#,
+               floor_num            = #floor_num#,
+               house_type           = #house_type#,
+               house_towards        = #house_towards#,
+               allow_num            = #allow_num#,
+               comment              = #comment#,
+               lastupdated_operator = #lastupdated_operator#
+        where  id = #id#
+        and    delete_flag = ''
+        and    #allow_num# >= (select count(*)
+                               from   business_live_manage a
+                               where  a.house_id = #id#
+                               and    a.delete_flag = '')
+    ]]>
+    </update>
+    <select
+        parameterClass="String"
+        resultClass="Integer"
+        id="houseManageDeleteConfirmValidate">
+        select count(*)
+        from   business_live_manage
+        where  house_id = #id#
+        and    delete_flag = ''
+    </select>
+    <update
+        id="houseManageDeleteConfirmExecute"
+        parameterClass="houseManageDeleteConfirmExecuteParamBean">
+        update base_house_manage
+        set    delete_flag = 'deleted',
+               lastupdated_operator = #lastupdated_operator#
+        where  id = #id#
+        and    delete_flag = ''
+        and    not exists (select sysdate()
+                from   business_live_manage a
+                where  a.house_id = #id#
+                and    a.delete_flag = '')
+    </update>    
+</sqlMap>

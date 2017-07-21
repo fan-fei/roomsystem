@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+    namespace="queryManage">
+
+    <typeAlias
+        alias="queryManageMainNoticeSelectResultBean"
+        type="com.feifan.querymanage.sqlbean.QueryManageMainNoticeSelectResultBean" />
+    <typeAlias
+        alias="queryManageMainBedSelectResultBean"
+        type="com.feifan.querymanage.sqlbean.QueryManageMainBedSelectResultBean" />    
+    
+    <select
+        resultClass="queryManageMainNoticeSelectResultBean"
+        id="queryManageMainNoticeSelect">
+        <![CDATA[
+        select c.person_num,
+               c.name,
+               concat(d.building_num,'-',d.floor_num) as building_floor,
+               d.house_num,
+               d.house_type,
+               a.enter_date,
+               b.end_date
+        from   business_live_manage a
+        left   join (select a.id,
+                            max(b.end_date) end_date
+                     from   business_live_manage a
+                     inner  join business_payment_manage b on a.id = b.live_id
+                     where  a.delete_flag = ''
+                     and    b.delete_flag = ''
+                     group  by a.id) b on a.id = b.id
+        left   join base_person_manage c on a.person_id = c.id
+        left   join base_house_manage d on a.house_id = d.id
+        where  (subdate(end_date, interval 7 day) < sysdate() or end_date is null)
+        and    a.delete_flag = ''
+        and    c.delete_flag = ''
+        and    d.delete_flag = ''
+        order  by end_date,
+                  building_floor,
+                  house_num
+        ]]>
+    </select>
+    <select
+        resultClass="queryManageMainBedSelectResultBean"
+        id="queryManageMainBedSelect">
+        select concat(a.building_num,'-',a.floor_num) as building_floor,
+               a.house_num,
+               a.house_type,
+               a.house_towards,
+               a.allow_num,
+               if(b.already_num is null, 0, b.already_num) already_num,
+               allow_num - if(b.already_num is null, 0, b.already_num) spare_num,
+               a.comment
+        from   base_house_manage a
+        left   join (select house_id,
+                            count(*) already_num
+                     from   business_live_manage b
+                     where  b.delete_flag = ''
+                     group  by b.house_id) b on a.id = b.house_id
+        where  a.delete_flag = ''
+        order  by building_floor,
+                  house_num,
+                  spare_num desc
+    </select>
+</sqlMap>

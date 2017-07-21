@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+    namespace="incomeManage">
+
+    <typeAlias
+        alias="incomeManageSelectInputSelectParamBean"
+        type="com.feifan.incomemanage.sqlbean.IncomeManageSelectInputSelectParamBean" />
+    <typeAlias
+        alias="incomeManageSelectInputSelectResultBean"
+        type="com.feifan.incomemanage.sqlbean.IncomeManageSelectInputSelectResultBean" />
+    
+    <select
+        parameterClass="incomeManageSelectInputSelectParamBean"
+        resultClass="incomeManageSelectInputSelectResultBean"
+        id="incomeManageSelectInputSelect">
+				select c.building_num,
+		               c.floor_num,
+		               substring(a.pay_date, 1, 4) year,
+		               substring(a.pay_date, 6, 2) month,
+		               sum(a.room_rent) room_rent,
+		               sum(a.water_charge) water_charge,
+		               sum(a.power_charge) power_charge,
+		               sum(a.extra_charge) extra_charge,
+		               sum(a.cable_charge) cable_charge,
+		               sum(a.heating_charge) heating_charge,
+		               sum(a.total_charge) total_charge,
+		               sum(a.room_deposit) room_deposit
+		        from   business_payment_manage as a
+		        inner  join business_live_manage as b on a.live_id = b.id
+		        inner  join base_house_manage as c on b.house_id = c.id
+		        where  a.delete_flag = ''
+		<isNotEmpty property="building_num">
+		        and building_num = #building_num#
+		</isNotEmpty>
+		<isNotEmpty property="floor_num">
+		        and    floor_num = #floor_num#
+		</isNotEmpty>
+		<isNotEmpty property="year">
+		        and    substring(a.pay_date, 1, 4) = #year#
+		</isNotEmpty>
+		<isNotEmpty property="month">
+		        and    substring(a.pay_date, 6, 2) = #month#
+		</isNotEmpty>
+		        group  by building_num,
+		                  floor_num,
+		                  year,
+		                  month with rollup
+    </select>
+</sqlMap>

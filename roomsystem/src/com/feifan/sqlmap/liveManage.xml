@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+	namespace="liveManage">
+
+	<typeAlias
+		alias="liveManageSelectInputSelectParamBean"
+		type="com.feifan.livemanage.sqlbean.LiveManageSelectInputSelectParamBean" />
+	<typeAlias
+		alias="liveManageSelectInputSelectResultBean"
+		type="com.feifan.livemanage.sqlbean.LiveManageSelectInputSelectResultBean" />
+	<typeAlias
+		alias="liveManageCreateConfirmExecuteParamBean"
+		type="com.feifan.livemanage.sqlbean.LiveManageCreateConfirmExecuteParamBean" />
+	<typeAlias
+		alias="liveManageModifyConfirmExecuteParamBean"
+		type="com.feifan.livemanage.sqlbean.LiveManageModifyConfirmExecuteParamBean" />
+	<typeAlias
+		alias="liveManageCreateInputReferResultBean"
+		type="com.feifan.livemanage.sqlbean.LiveManageCreateInputReferResultBean" />	
+	<typeAlias
+		alias="liveManageDeleteConfirmExecuteParamBean"
+		type="com.feifan.livemanage.sqlbean.LiveManageDeleteConfirmExecuteParamBean" />		
+	
+	<select
+		parameterClass="liveManageSelectInputSelectParamBean"
+		resultClass="liveManageSelectInputSelectResultBean"
+		id="liveManageSelectInputSelect">
+		select a.id,
+		       b.person_num,
+		       b.name,
+		       concat(c.building_num,'-',c.floor_num) as building_floor,
+		       c.house_num,
+		       c.house_type,
+		       a.enter_date,
+		       a.bed_num,
+		       a.lastupdated_operator,
+		       a.lastupdated_date,
+		       a.comment
+		from   business_live_manage a
+		inner  join base_person_manage b on a.person_id = b.id
+		inner  join base_house_manage c on a.house_id = c.id
+		where  b.name like #name#
+		and    c.house_num like #house_num#
+		and    a.delete_flag = ''
+		order  by c.house_type desc,
+				  c.house_num,
+		          b.name
+	</select>
+	<insert
+		id="liveManageCreateConfirmExecute"
+		parameterClass="liveManageCreateConfirmExecuteParamBean">
+		<![CDATA[
+		insert into business_live_manage
+		  (person_id,
+		   house_id,
+		   bed_num,
+		   enter_date,
+		   comment,
+		   lastupdated_operator)
+		  select #person_id#,
+		         #house_id#,
+		         #bed_num#,
+		         #enter_date#,
+		         #comment#,
+		         #lastupdated_operator#
+		  from   dual
+		  where  exists (select *
+		          from   base_person_manage a
+		          where  a.id = #person_id#
+		          and    a.delete_flag = '')
+		  and    not exists (select *
+		          from   business_live_manage a
+		          where  a.person_id = #person_id#
+		          and    a.delete_flag = '')
+		  and    not exists
+		   (select sysdate()
+		          from   base_house_manage a
+		          left   join (select house_id,
+		                             count(*) already_num
+		                      from   business_live_manage b
+		                      where  b.delete_flag = ''
+		                      group  by b.house_id) b on a.id = b.house_id
+		          where  a.delete_flag = ''
+		          and    a.id = #house_id#
+		          and    if(already_num is null, 0, already_num) >= a.allow_num
+		          order  by house_num)
+		]]>
+	</insert>
+	<update
+		id="liveManageModifyConfirmExecute"
+		parameterClass="liveManageModifyConfirmExecuteParamBean">
+		update business_live_manage
+		set    bed_num              = #bed_num#,
+			   enter_date           = #enter_date#,
+		       comment              = #comment#,
+		       lastupdated_operator = #lastupdated_operator#
+		where  id = #id#
+		and    delete_flag = ''
+	</update>
+	<update
+		id="liveManageDeleteConfirmExecute"
+		parameterClass="liveManageDeleteConfirmExecuteParamBean">
+		update business_live_manage
+		set    delete_flag = 'deleted',
+			   lastupdated_operator = #lastupdated_operator#
+		where  id = #id#
+		and    delete_flag = ''
+	</update>
+	<select
+		parameterClass="String"
+		resultClass="Integer"
+		id="liveManageCreateConfirmValidatePerson">
+		select count(*)
+		from   business_live_manage a
+		where  a.person_id = #person_id#
+		and    a.delete_flag = ''
+		and    exists (select *
+		        from   base_person_manage b
+		        where  b.id = #person_id#
+		        and    b.delete_flag = '')
+	</select>
+	<select
+		parameterClass="String"
+		resultClass="Integer"
+		id="liveManageCreateConfirmValidateHouse">
+		<![CDATA[
+		select count(*)
+		from   base_house_manage a
+		left   join (select house_id,
+		                    count(*) already_num
+		             from   business_live_manage b
+		             where  b.delete_flag = ''
+		             group  by b.house_id) b on a.id = b.house_id
+		where  a.delete_flag = ''
+		and    a.id = 'house_id'
+		and    if(already_num is null, 0, already_num) >= a.allow_num
+		order  by house_num
+		]]>
+	</select>
+	<select
+		resultClass="liveManageCreateInputReferResultBean"
+		id="liveManageCreateInputReferPerson">
+		select id,
+		       person_num,
+		       name,
+		       sex,
+		       native_place,
+		       telephone,
+		       email,
+		       comment
+		from   base_person_manage a
+		where  a.delete_flag = ''
+		and    not exists (select *
+		        from   business_live_manage b
+		        where  b.delete_flag = ''
+		        and    b.person_id = a.id)
+		order  by person_num
+	</select>
+	<select
+		resultClass="liveManageCreateInputReferResultBean"
+		id="liveManageCreateInputReferHouse">
+		<![CDATA[
+		select a.id,
+		       concat(a.building_num,'-',a.floor_num) as building_floor,
+		       a.house_num,
+		       a.house_type,
+		       a.house_towards,
+		       a.allow_num,
+		       if(b.already_num is null, 0, b.already_num) already_num,
+		       a.comment
+		from   base_house_manage a
+		left   join (select house_id,
+		                    count(*) already_num
+		             from   business_live_manage b
+		             where  b.delete_flag = ''
+		             group  by b.house_id) b on a.id = b.house_id
+		where  a.delete_flag = ''
+		and    if(already_num is null, 0, already_num) < a.allow_num
+		order  by house_num
+		]]>
+	</select>
+</sqlMap>

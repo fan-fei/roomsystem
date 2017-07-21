@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+    namespace="paymentManage">
+
+    <typeAlias
+        alias="paymentManageSelectInputSelectParamBean"
+        type="com.feifan.paymentmanage.sqlbean.PaymentManageSelectInputSelectParamBean" />
+    <typeAlias
+        alias="paymentManageSelectInputSelectResultBean"
+        type="com.feifan.paymentmanage.sqlbean.PaymentManageSelectInputSelectResultBean" />
+    <typeAlias
+        alias="paymentManageCreateConfirmExecuteParamBean"
+        type="com.feifan.paymentmanage.sqlbean.PaymentManageCreateConfirmExecuteParamBean" />
+    <typeAlias
+        alias="paymentManageModifyConfirmExecuteParamBean"
+        type="com.feifan.paymentmanage.sqlbean.PaymentManageModifyConfirmExecuteParamBean" />
+    <typeAlias
+        alias="paymentManageCreateInputReferResultBean"
+        type="com.feifan.paymentmanage.sqlbean.PaymentManageCreateInputReferResultBean" />    
+    <typeAlias
+        alias="paymentManageDeleteConfirmExecuteParamBean"
+        type="com.feifan.paymentmanage.sqlbean.PaymentManageDeleteConfirmExecuteParamBean" />        
+    
+    <select
+        parameterClass="paymentManageSelectInputSelectParamBean"
+        resultClass="paymentManageSelectInputSelectResultBean"
+        id="paymentManageSelectInputSelect">
+        select a.id,
+               c.person_num,
+               c.name,
+               concat(d.building_num,'-',d.floor_num) as building_floor,
+               d.floor_num,
+               d.house_num,
+               d.house_type,
+               b.enter_date,
+               a.pay_date,
+               a.start_date,
+               a.end_date,
+               a.room_rent,
+               a.water_charge,
+               a.power_charge,
+               a.extra_charge,
+               a.cable_charge,
+               a.heating_charge,
+               a.total_charge,
+               a.room_deposit,
+               a.comment,
+               a.lastupdated_operator,
+               a.lastupdated_date
+        from   business_payment_manage a
+        inner  join business_live_manage b on a.live_id = b.id
+        inner  join base_person_manage c on b.person_id = c.id
+        inner  join base_house_manage d on b.house_id = d.id
+        where  a.delete_flag = ''
+        and    c.name like #name#
+        and    d.house_num like #house_num#
+        <isNotEmpty property="start_date">
+        <![CDATA[
+        and    a.start_date >= #start_date#
+        ]]>
+        </isNotEmpty>
+        <isNotEmpty property="end_date">
+        <![CDATA[
+        and    a.end_date <= #end_date#
+        ]]>
+        </isNotEmpty>
+        <isNotEmpty property="pay_date">
+        <![CDATA[
+        and    a.pay_date = #pay_date#
+        ]]>
+        </isNotEmpty>
+        order  by a.pay_date desc,
+                  a.lastupdated_date desc
+    </select>
+    
+    <select resultClass="paymentManageCreateInputReferResultBean" id="paymentManageCreateInputRefer">
+        select a.id,
+               b.person_num,
+               b.name,
+               concat(c.building_num,'-',c.floor_num) as building_floor,
+               c.house_num,
+               c.house_type,
+               a.enter_date,
+               a.bed_num,
+               a.comment
+        from   business_live_manage a
+        inner  join base_person_manage b on a.person_id = b.id
+        inner  join base_house_manage c on a.house_id = c.id
+        where  a.delete_flag = ''
+        order  by c.house_type desc,
+                  c.house_num,
+                  b.name
+    </select>
+    
+    <select parameterClass="String" resultClass="Integer" id="paymentManageCreateConfirmValidate">
+        select count(*)
+        from   business_live_manage a
+        where  a.id = #live_id#
+        and    a.delete_flag = ''
+    </select>
+   
+    <insert
+        id="paymentManageCreateConfirmExecute"
+        parameterClass="paymentManageCreateConfirmExecuteParamBean">
+        insert into business_payment_manage
+          (live_id,
+           pay_date,
+           start_date,
+           end_date,
+           room_rent,
+           water_charge,
+           power_charge,
+           extra_charge,
+           cable_charge,
+           heating_charge,
+           total_charge,
+           room_deposit,
+           comment,
+           lastupdated_operator)
+          select #live_id#,
+                 #pay_date#,
+                 #start_date#,
+                 #end_date#,
+                 #room_rent#,
+                 #water_charge#,
+                 #power_charge#,
+                 #extra_charge#,
+                 #cable_charge#,
+                 #heating_charge#,
+                 #total_charge#,
+                 #room_deposit#,
+                 #comment#,
+                 #lastupdated_operator#
+          from   dual
+          where  exists (select sysdate()
+                  from   business_live_manage a
+                  where  a.id = #live_id#
+                  and    a.delete_flag = '');
+    </insert>    
+    
+    <update
+        id="paymentManageModifyConfirmExecute"
+        parameterClass="paymentManageModifyConfirmExecuteParamBean">
+        update business_payment_manage
+        set    pay_date             = #pay_date#,
+               start_date           = #start_date#,
+               end_date             = #end_date#,
+               room_rent            = #room_rent#,
+               water_charge         = #water_charge#,
+               power_charge         = #power_charge#,
+               extra_charge      = #extra_charge#,
+               cable_charge         = #cable_charge#,
+               heating_charge       = #heating_charge#,
+               total_charge         = #total_charge#,
+               room_deposit         = #room_deposit#,
+               comment              = #comment#,
+               lastupdated_operator = #lastupdated_operator#
+        where  id = #id#
+        and    delete_flag = ''
+    </update>
+    
+    <update
+        id="paymentManageDeleteConfirmExecute"
+        parameterClass="paymentManageDeleteConfirmExecuteParamBean">
+        update business_payment_manage
+        set    delete_flag = 'deleted',
+               lastupdated_operator = #lastupdated_operator#
+        where  id = #id#
+        and    delete_flag = ''
+    </update>
+    
+</sqlMap>

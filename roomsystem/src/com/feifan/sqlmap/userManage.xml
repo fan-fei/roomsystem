@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+	namespace="userManage">
+
+	<typeAlias
+		alias="userManageSelectInputSelectParamBean"
+		type="com.feifan.usermanage.sqlbean.UserManageSelectInputSelectParamBean" />
+	<typeAlias
+		alias="userManageSelectInputSelectResultBean"
+		type="com.feifan.usermanage.sqlbean.UserManageSelectInputSelectResultBean" />
+	<typeAlias
+		alias="userManageCreateConfirmExecuteParamBean"
+		type="com.feifan.usermanage.sqlbean.UserManageCreateConfirmExecuteParamBean" />
+	<typeAlias
+		alias="userManageModifyConfirmExecuteParamBean"
+		type="com.feifan.usermanage.sqlbean.UserManageModifyConfirmExecuteParamBean" />
+	
+	
+	<select
+		parameterClass="userManageSelectInputSelectParamBean"
+		resultClass="userManageSelectInputSelectResultBean"
+		id="userManageSelectInputSelect">
+		select id,
+		       username,
+		       password,
+		       authority,
+		       nickname,
+		       comment
+		from   base_user_manage a
+		where  a.username like #username#
+		and    a.authority like #authority#
+		and    a.nickname like #nickname#
+		and    a.username != #currentusername#
+		and    a.delete_flag = ''
+		order  by username
+	</select>
+	<select
+		parameterClass="String"
+		resultClass="Integer"
+		id="userManageCreateConfirmValidate">
+		select count(*)
+		from   base_user_manage
+		where  username = #username#
+		and    delete_flag = ''
+	</select>	
+	<insert
+		id="userManageCreateConfirmExecute"
+		parameterClass="userManageCreateConfirmExecuteParamBean">
+		insert into base_user_manage
+		  (username,
+		   password,
+		   authority,
+		   nickname,
+		   comment,
+		   lastupdated_operator)
+		  select #username#,
+		         #password#,
+		         #authority#,
+		         #nickname#,
+		         #comment#,
+		         #lastupdated_operator#
+		  from   dual
+		  where  not exists (select *
+		          from   base_user_manage
+		          where  username = #username#
+		          and    delete_flag = '')
+	</insert>
+	<update
+		id="userManageModifyConfirmExecute"
+		parameterClass="userManageModifyConfirmExecuteParamBean">
+		update base_user_manage
+		set    password             = #password#,
+		       authority            = #authority#,
+		       nickname             = #nickname#,
+		       comment              = #comment#,
+		       lastupdated_operator = #lastupdated_operator#
+		where  id = #id#
+		and    delete_flag = ''
+	</update>
+	<update
+		id="userManageDeleteConfirmExecute"
+		parameterClass="String">
+		update base_user_manage
+		set    delete_flag = 'deleted'
+		where  id = #id#
+		and    delete_flag = ''
+	</update>	
+</sqlMap>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+	namespace="loginManage">
+
+	<typeAlias
+		alias="loginManageLoginValidateParamBean"
+		type="com.feifan.loginmanage.sqlbean.LoginManageLoginValidateParamBean" />
+	<typeAlias
+		alias="loginManageLoginValidateResultBean"
+		type="com.feifan.loginmanage.sqlbean.LoginManageLoginValidateResultBean" />	
+	<typeAlias
+		alias="loginManageSetUserConfirmValidateParamBean"
+		type="com.feifan.loginmanage.sqlbean.LoginManageSetUserConfirmValidateParamBean" />	
+	<typeAlias
+		alias="loginManageSetUserConfirmExecuteParamBean"
+		type="com.feifan.loginmanage.sqlbean.LoginManageSetUserConfirmExecuteParamBean" />	
+	
+	<select
+		id="loginManageLoginValidate"
+		parameterClass="loginManageLoginValidateParamBean"
+		resultClass="loginManageLoginValidateResultBean">
+		select username,
+		       authority,
+		       nickname
+		from   base_user_manage
+		where  username = #username#
+		and    password = #password#
+		and    delete_flag = ''
+	</select>
+	<select
+		id="loginManageSetUserConfirmValidate"
+		parameterClass="loginManageSetUserConfirmValidateParamBean"
+		resultClass="Integer">
+		select count(*)
+		from   base_user_manage a
+		where  a.username = #username#
+		and    a.password = #password#
+		and    a.delete_flag = ''
+	</select>
+	<update
+		id="loginManageSetUserConfirmExecute"
+		parameterClass="loginManageSetUserConfirmExecuteParamBean">
+		update base_user_manage a
+		set    a.password             = #new_password#,
+		       a.nickname             = #nickname#,
+		       a.lastupdated_operator = #lastupdated_operator#
+		where  a.username = #username#
+		and    a.password = #password#
+		and    a.delete_flag = ''
+	</update>
+	<select
+		id="loginManageSetUserConfirmValidateNoPassword"
+		parameterClass="loginManageSetUserConfirmValidateParamBean"
+		resultClass="Integer">
+		select count(*)
+		from   base_user_manage a
+		where  a.username = #username#
+		and    a.delete_flag = ''
+	</select>
+	<update
+		id="loginManageSetUserConfirmExecuteNoPassword"
+		parameterClass="loginManageSetUserConfirmExecuteParamBean">
+		update base_user_manage a
+		set    a.nickname             = #nickname#,
+		       a.lastupdated_operator = #lastupdated_operator#
+		where  a.username = #username#
+		and    a.delete_flag = ''
+	</update>
+</sqlMap>

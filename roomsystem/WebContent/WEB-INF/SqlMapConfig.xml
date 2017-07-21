@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap
+		resource="com/feifan/sqlmap/personManage.xml" />
+	<sqlMap
+		resource="com/feifan/sqlmap/houseManage.xml" />
+	<sqlMap
+		resource="com/feifan/sqlmap/userManage.xml" />
+	<sqlMap
+		resource="com/feifan/sqlmap/liveManage.xml" />
+	<sqlMap
+		resource="com/feifan/sqlmap/loginManage.xml" />
+	<sqlMap
+		resource="com/feifan/sqlmap/paymentManage.xml" />
+	<sqlMap
+		resource="com/feifan/sqlmap/queryManage.xml" />
+	<sqlMap
+		resource="com/feifan/sqlmap/incomeManage.xml" />
+</sqlMapConfig>

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http:www.springframework.org//dtd/spring-beans.dtd">
+<beans
+	default-autowire="no">
+	<!-- personManage -->
+	<bean
+		name="/personManageSelectInputSelect"
+		class="com.feifan.personmanage.action.PersonManageSelectInputSelectAction">
+		<property
+			name="personmanagedaoserviceimpl">
+			<ref
+				bean="personmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/personManageCreateConfirmExecute"
+		class="com.feifan.personmanage.action.PersonManageCreateConfirmExecuteAction">
+		<property
+			name="personmanagedaoserviceimpl">
+			<ref
+				bean="personmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/personManageModifyConfirmExecute"
+		class="com.feifan.personmanage.action.PersonManageModifyConfirmExecuteAction">
+		<property
+			name="personmanagedaoserviceimpl">
+			<ref
+				bean="personmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/personManageDeleteConfirmExecute"
+		class="com.feifan.personmanage.action.PersonManageDeleteConfirmExecuteAction">
+		<property
+			name="personmanagedaoserviceimpl">
+			<ref
+				bean="personmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/personManageModifyResultBack"
+		class="com.feifan.personmanage.action.PersonManageModifyResultBackAction">
+		<property
+			name="personmanagedaoserviceimpl">
+			<ref
+				bean="personmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/personManageDeleteResultBack"
+		class="com.feifan.personmanage.action.PersonManageDeleteResultBackAction">
+		<property
+			name="personmanagedaoserviceimpl">
+			<ref
+				bean="personmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<!-- houseManage -->
+	<bean
+		name="/houseManageSelectInputSelect"
+		class="com.feifan.housemanage.action.HouseManageSelectInputSelectAction">
+		<property
+			name="housemanagedaoserviceimpl">
+			<ref
+				bean="housemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/houseManageCreateConfirmExecute"
+		class="com.feifan.housemanage.action.HouseManageCreateConfirmExecuteAction">
+		<property
+			name="housemanagedaoserviceimpl">
+			<ref
+				bean="housemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/houseManageModifyConfirmExecute"
+		class="com.feifan.housemanage.action.HouseManageModifyConfirmExecuteAction">
+		<property
+			name="housemanagedaoserviceimpl">
+			<ref
+				bean="housemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/houseManageDeleteConfirmExecute"
+		class="com.feifan.housemanage.action.HouseManageDeleteConfirmExecuteAction">
+		<property
+			name="housemanagedaoserviceimpl">
+			<ref
+				bean="housemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/houseManageModifyResultBack"
+		class="com.feifan.housemanage.action.HouseManageModifyResultBackAction">
+		<property
+			name="housemanagedaoserviceimpl">
+			<ref
+				bean="housemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/houseManageDeleteResultBack"
+		class="com.feifan.housemanage.action.HouseManageDeleteResultBackAction">
+		<property
+			name="housemanagedaoserviceimpl">
+			<ref
+				bean="housemanagedaoserviceimpl" />
+		</property>
+	</bean>
+
+	<!-- userManage -->
+	<bean
+		name="/userManageSelectInputSelect"
+		class="com.feifan.usermanage.action.UserManageSelectInputSelectAction">
+		<property
+			name="usermanagedaoserviceimpl">
+			<ref
+				bean="usermanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/userManageCreateConfirmExecute"
+		class="com.feifan.usermanage.action.UserManageCreateConfirmExecuteAction">
+		<property
+			name="usermanagedaoserviceimpl">
+			<ref
+				bean="usermanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/userManageModifyConfirmExecute"
+		class="com.feifan.usermanage.action.UserManageModifyConfirmExecuteAction">
+		<property
+			name="usermanagedaoserviceimpl">
+			<ref
+				bean="usermanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/userManageDeleteConfirmExecute"
+		class="com.feifan.usermanage.action.UserManageDeleteConfirmExecuteAction">
+		<property
+			name="usermanagedaoserviceimpl">
+			<ref
+				bean="usermanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/userManageModifyResultBack"
+		class="com.feifan.usermanage.action.UserManageModifyResultBackAction">
+		<property
+			name="usermanagedaoserviceimpl">
+			<ref
+				bean="usermanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/userManageDeleteResultBack"
+		class="com.feifan.usermanage.action.UserManageDeleteResultBackAction">
+		<property
+			name="usermanagedaoserviceimpl">
+			<ref
+				bean="usermanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<!-- liveManage -->
+	<bean
+		name="/liveManageSelectInputSelect"
+		class="com.feifan.livemanage.action.LiveManageSelectInputSelectAction">
+		<property
+			name="livemanagedaoserviceimpl">
+			<ref
+				bean="livemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/liveManageCreateConfirmExecute"
+		class="com.feifan.livemanage.action.LiveManageCreateConfirmExecuteAction">
+		<property
+			name="livemanagedaoserviceimpl">
+			<ref
+				bean="livemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/liveManageModifyConfirmExecute"
+		class="com.feifan.livemanage.action.LiveManageModifyConfirmExecuteAction">
+		<property
+			name="livemanagedaoserviceimpl">
+			<ref
+				bean="livemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/liveManageDeleteConfirmExecute"
+		class="com.feifan.livemanage.action.LiveManageDeleteConfirmExecuteAction">
+		<property
+			name="livemanagedaoserviceimpl">
+			<ref
+				bean="livemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/liveManageModifyResultBack"
+		class="com.feifan.livemanage.action.LiveManageModifyResultBackAction">
+		<property
+			name="livemanagedaoserviceimpl">
+			<ref
+				bean="livemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/liveManageDeleteResultBack"
+		class="com.feifan.livemanage.action.LiveManageDeleteResultBackAction">
+		<property
+			name="livemanagedaoserviceimpl">
+			<ref
+				bean="livemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/liveManageCreateInputRefer"
+		class="com.feifan.livemanage.action.LiveManageCreateInputReferAction">
+		<property
+			name="livemanagedaoserviceimpl">
+			<ref
+				bean="livemanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<!-- loginManage -->
+	<bean
+		name="/loginManageLogin"
+		class="com.feifan.loginmanage.action.LoginManageLoginAction">
+		<property
+			name="loginmanagedaoserviceimpl">
+			<ref
+				bean="loginmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/loginManageSetUserConfirmExecute"
+		class="com.feifan.loginmanage.action.LoginManageSetUserConfirmExecuteAction">
+		<property
+			name="loginmanagedaoserviceimpl">
+			<ref
+				bean="loginmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<!-- paymentManage -->
+	<bean
+		name="/paymentManageSelectInputSelect"
+		class="com.feifan.paymentmanage.action.PaymentManageSelectInputSelectAction">
+		<property
+			name="paymentmanagedaoserviceimpl">
+			<ref
+				bean="paymentmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/paymentManageCreateConfirmExecute"
+		class="com.feifan.paymentmanage.action.PaymentManageCreateConfirmExecuteAction">
+		<property
+			name="paymentmanagedaoserviceimpl">
+			<ref
+				bean="paymentmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/paymentManageModifyConfirmExecute"
+		class="com.feifan.paymentmanage.action.PaymentManageModifyConfirmExecuteAction">
+		<property
+			name="paymentmanagedaoserviceimpl">
+			<ref
+				bean="paymentmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/paymentManageDeleteConfirmExecute"
+		class="com.feifan.paymentmanage.action.PaymentManageDeleteConfirmExecuteAction">
+		<property
+			name="paymentmanagedaoserviceimpl">
+			<ref
+				bean="paymentmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/paymentManageModifyResultBack"
+		class="com.feifan.paymentmanage.action.PaymentManageModifyResultBackAction">
+		<property
+			name="paymentmanagedaoserviceimpl">
+			<ref
+				bean="paymentmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/paymentManageDeleteResultBack"
+		class="com.feifan.paymentmanage.action.PaymentManageDeleteResultBackAction">
+		<property
+			name="paymentmanagedaoserviceimpl">
+			<ref
+				bean="paymentmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/paymentManageCreateInputRefer"
+		class="com.feifan.paymentmanage.action.PaymentManageCreateInputReferAction">
+		<property
+			name="paymentmanagedaoserviceimpl">
+			<ref
+				bean="paymentmanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/queryManageMainNoticeSelect"
+		class="com.feifan.querymanage.action.QueryManageMainNoticeSelectAction">
+		<property
+			name="querymanagedaoserviceimpl">
+			<ref
+				bean="querymanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/queryManageMainBedSelect"
+		class="com.feifan.querymanage.action.QueryManageMainBedSelectAction">
+		<property
+			name="querymanagedaoserviceimpl">
+			<ref
+				bean="querymanagedaoserviceimpl" />
+		</property>
+	</bean>
+	<bean
+		name="/incomeManageSelectInputSelect"
+		class="com.feifan.incomemanage.action.IncomeManageSelectInputSelectAction">
+		<property
+			name="incomemanagedaoserviceimpl">
+			<ref
+				bean="incomemanagedaoserviceimpl" />
+		</property>
+	</bean>
+</beans>

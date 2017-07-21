@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap
+	namespace="personManage">
+
+	<typeAlias
+		alias="personManageSelectInputSelectParamBean"
+		type="com.feifan.personmanage.sqlbean.PersonManageSelectInputSelectParamBean" />
+	<typeAlias
+		alias="personManageSelectInputSelectResultBean"
+		type="com.feifan.personmanage.sqlbean.PersonManageSelectInputSelectResultBean" />
+	<typeAlias
+		alias="personManageCreateConfirmExecuteParamBean"
+		type="com.feifan.personmanage.sqlbean.PersonManageCreateConfirmExecuteParamBean" />
+	<typeAlias
+		alias="personManageModifyConfirmExecuteParamBean"
+		type="com.feifan.personmanage.sqlbean.PersonManageModifyConfirmExecuteParamBean" />
+	<typeAlias
+		alias="personManageDeleteConfirmExecuteParamBean"
+		type="com.feifan.personmanage.sqlbean.PersonManageDeleteConfirmExecuteParamBean" />	
+	
+	<select
+		parameterClass="personManageSelectInputSelectParamBean"
+		resultClass="personManageSelectInputSelectResultBean"
+		id="personManageSelectInputSelect">
+		select id,
+			   person_num,
+		       name,
+		       sex,
+		       native_place,
+		       work_place,
+		       telephone,
+		       email,
+		       comment
+		  from base_person_manage a
+		 where a.person_num like #person_num#
+		   and a.name like #name#
+		   and a.sex like #sex#
+		   and a.native_place like #native_place#
+		   and a.delete_flag = ''
+		 order by sex desc, name, person_num
+	</select>
+	<insert
+		id="personManageCreateConfirmExecute"
+		parameterClass="personManageCreateConfirmExecuteParamBean">
+		insert into base_person_manage
+		  (person_num,
+		   name,
+		   sex,
+		   native_place,
+		   work_place,
+		   telephone,
+		   email,
+		   comment,
+		   lastupdated_operator)
+		  select #person_num#,
+		         #name#,
+		         #sex#,
+		         #native_place#,
+		         #work_place#,
+		         #telephone#,
+		         #email#,
+		         #comment#,
+		         #lastupdated_operator#
+		  from   dual
+		  where  not exists
+		   (select * from base_person_manage where person_num = #person_num# and delete_flag='')
+	</insert>
+	<select
+		parameterClass="String"
+		resultClass="Integer"
+		id="personManageCreateConfirmValidate">
+		select count(*)
+		from   base_person_manage
+		where  person_num = #person_num#
+		and    delete_flag = ''
+	</select>
+	<update
+		id="personManageModifyConfirmExecute"
+		parameterClass="personManageModifyConfirmExecuteParamBean">
+		update base_person_manage
+		set    person_num           = #person_num#,
+		       name                 = #name#,
+		       sex                  = #sex#,
+		       native_place         = #native_place#,
+		       work_place           = #work_place#,
+		       telephone            = #telephone#,
+		       email                = #email#,
+		       comment              = #comment#,
+		       lastupdated_operator = #lastupdated_operator#
+		where  id = #id#
+		and    delete_flag = ''
+	</update>
+	<update
+		id="personManageDeleteConfirmExecute"
+		parameterClass="personManageDeleteConfirmExecuteParamBean">
+		update base_person_manage
+		set    delete_flag          = 'deleted',
+		       lastupdated_operator = #lastupdated_operator#
+		where  id = #id#
+		and    delete_flag = ''
+		and    not exists (select sysdate()
+		        from   business_live_manage a
+		        where  a.person_id = #id#
+		        and    a.delete_flag = '')
+	</update>
+	<select
+		parameterClass="String"
+		resultClass="Integer"
+		id="personManageDeleteConfirmValidate">
+		select count(*)
+		from   business_live_manage
+		where  person_id = #id#
+		and    delete_flag = ''
+	</select>
+</sqlMap>
