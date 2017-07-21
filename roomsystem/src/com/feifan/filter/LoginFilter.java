@@ -37,6 +37,7 @@ public class LoginFilter implements Filter {
         }
 
         if (httpServletRequest.getSession().getAttribute("username") == null) {
+            // 这个地方需要修改
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
