@@ -220,7 +220,7 @@ public class CommonUtility {
 
 	// 生成验证码
 	public static void main(String[] args) {
-		String identifycode = "1113333111234123595967017";
+		String identifycode = "1113333111234123595960123";
 		char[] c = identifycode.toCharArray();
 		for (int i = 0; i < c.length; i++) {
 			System.out.print((char) (c[i] ^ 'z'));

@@ -34,7 +34,7 @@ public class LoginManageLoginAction extends Action {
 		// 检查验证码是否正确，软件是否过期
 		if (!CommonUtility.identify()) {
 			ActionErrors actionErrors = new ActionErrors();
-			actionErrors.add("error", new ActionMessage("identifyfailure"));
+			actionErrors.add("error", new ActionMessage("loginmanage_action_05"));
 			this.addErrors(request, actionErrors);
 			return mapping.findForward("fail");
 		}
@@ -42,7 +42,15 @@ public class LoginManageLoginAction extends Action {
 		paramBean.setValue(loginManageForm);
 
 		// 验证该用户密码是否存在
-		LoginManageLoginValidateResultBean resultBean = loginmanagedaoserviceimpl.loginManageLoginValidate(paramBean);
+		LoginManageLoginValidateResultBean resultBean=null;
+		try {
+			resultBean = loginmanagedaoserviceimpl.loginManageLoginValidate(paramBean);
+		} catch (Exception e) {
+			ActionErrors actionErrors = new ActionErrors();
+			actionErrors.add("error", new ActionMessage("loginmanage_action_04"));
+			this.addErrors(request, actionErrors);
+			return mapping.findForward("fail");
+		}
 		if (resultBean == null) {
 			ActionErrors actionErrors = new ActionErrors();
 			actionErrors.add("error", new ActionMessage("loginmanage_action_01"));
