@@ -38,7 +38,7 @@ public class LiveManageSelectInputSelectAction extends Action {
 		// 执行数据库
 		List<LiveManageSelectInputSelectResultBean> results = livemanagedaoserviceimpl.liveManageSelectInputSelect(paramBean);
 		for (LiveManageSelectInputSelectResultBean result : results) {
-			result.setLastupdated_date(result.getLastupdated_date().subSequence(0, 10).toString());
+            result.setLastupdated_date(result.getLastupdated_date() != null ? result.getLastupdated_date().subSequence(0, 10).toString() : null);
 		}
 		// 将检索结果放入SESSION
 		request.getSession().setAttribute("liveManageSelectInputSelectResult", results);
