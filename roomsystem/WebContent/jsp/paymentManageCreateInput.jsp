@@ -11,7 +11,10 @@
 	<title>公寓管理系统--租金管理--新增输入画面</title>
 	<link rel="stylesheet" type="text/css" href="styles/styles.css">
 	<script type="text/javascript" src="javascript/javascript.js"></script>
-	<script type="text/javascript" src="javascript/calendar.js"></script>
+	<script type="text/javascript" src="javascript/laydate/laydate.js"></script>
+	<script> lay('#version').html('-v'+ laydate.v); laydate.render({ elem: '#test1' }); </script>
+	<script> lay('#version').html('-v'+ laydate.v); laydate.render({ elem: '#test2' }); </script>
+	<script> lay('#version').html('-v'+ laydate.v); laydate.render({ elem: '#test3' }); </script>
 </head>
 <body>
 	<div id="globaldiv">
@@ -68,10 +71,10 @@
 							</th>
 							<td>
 								<logic:equal name="DoNotSetDefaultDate" value="DoNotSetDefaultDate">
-									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="pay_date" maxlength="10" onfocus="calendar()" readonly="true"></html:text></span>
+									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="pay_date" maxlength="10" styleId="test1" readonly="true"></html:text></span>
 								</logic:equal>
 								<logic:notEqual name="DoNotSetDefaultDate" value="DoNotSetDefaultDate">
-									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="pay_date" maxlength="10" value="<%= CommonUtility.getSysDate(2) %>" onfocus="calendar()" readonly="true"></html:text></span>
+									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="pay_date" maxlength="10" value="<%= CommonUtility.getSysDate(2) %>" styleId="test1" readonly="true"></html:text></span>
 								</logic:notEqual>
 							</td>
 							<th>
@@ -136,10 +139,10 @@
 							</th>
 							<td>
 								<logic:equal name="DoNotSetDefaultDate" value="DoNotSetDefaultDate">
-									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="start_date" maxlength="10" onfocus="calendar()" readonly="true"></html:text></span>
+									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="start_date" maxlength="10" styleId="test2" readonly="true"></html:text></span>
 								</logic:equal>
 								<logic:notEqual name="DoNotSetDefaultDate" value="DoNotSetDefaultDate">
-									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="start_date" maxlength="10" value="<%= CommonUtility.getSysDate(2) %>" onfocus="calendar()" readonly="true"></html:text></span>
+									<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="start_date" maxlength="10" value="<%= CommonUtility.getSysDate(2) %>" styleId="test2" readonly="true"></html:text></span>
 								</logic:notEqual>
 							</td>
 						</tr>
@@ -148,7 +151,7 @@
 								结束日期
 							</th>
 							<td>
-								<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="end_date" maxlength="10" onfocus="calendar()" readonly="true"></html:text></span>
+								<span><html:text styleClass="textbox" size="40" name="paymentManageForm" property="end_date" maxlength="10" styleId="test3" readonly="true"></html:text></span>
 							</td>
 							<th>
 								<font color="green">备注</font>

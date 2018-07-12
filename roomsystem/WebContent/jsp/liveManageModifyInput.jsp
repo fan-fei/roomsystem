@@ -10,7 +10,8 @@
 	<title>公寓管理系统--住宿管理--修改输入画面</title>
 	<link rel="stylesheet" type="text/css" href="styles/styles.css">
 	<script type="text/javascript" src="javascript/javascript.js"></script>
-	<script type="text/javascript" src="javascript/calendar.js"></script>
+	<script type="text/javascript" src="javascript/laydate/laydate.js"></script>
+	<script> lay('#version').html('-v'+ laydate.v); laydate.render({ elem: '#test1' }); </script>
 </head>
 <body>
 	<div id="globaldiv">
@@ -82,7 +83,7 @@
 								迁入日期
 							</th>
 							<td>
-								<span><html:text styleClass="textbox" size="40" name="liveManageForm" property="enter_date" maxlength="10" onfocus="calendar()" readonly="true"></html:text></span>
+								<span><html:text styleClass="textbox" size="40" name="liveManageForm" property="enter_date" maxlength="10" styleId="test1" readonly="true"></html:text></span>
 								<html:hidden name="liveManageForm" property="enter_date" />
 							</td>
 						</tr>
