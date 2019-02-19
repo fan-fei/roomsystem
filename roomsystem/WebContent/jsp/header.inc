@@ -6,7 +6,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
 <div id="headdiv">
 	<div id="firstdiv">
-		<a href="http://www.feifan.com" target="_blank"><img alt="www.feifan.com 非凡科技集团有限公司" src="images/9.jpg"> </a> <b><span><bean:write name="nickname" /> </span> <font color="blue"><%=CommonUtility.getSysDate(1) %></font></b>
+		<a href="http://www.fanfei.tech" target="_blank"><img alt="www.fanfei.tech 非凡科技集团有限公司" src="images/9.jpg"> </a> <b><span><bean:write name="nickname" /> </span> <font color="blue"><%=CommonUtility.getSysDate(1) %></font></b>
 		<html:button property="modifypassword" styleClass="button" onclick="pageLoad('loginManageSetUserInput.jsp')">帐号设置</html:button>
 		<html:button property="logout" styleClass="button" onclick="pageLoad('../loginManageLogout.do')">退出</html:button>
 		<br>

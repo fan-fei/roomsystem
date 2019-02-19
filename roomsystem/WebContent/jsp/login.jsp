@@ -16,7 +16,7 @@
 	<div id="globaldiv">
 		<div id="headdiv">
 			<div id="firstdiv">
-				<a href="http://www.feifan.com" target="_blank"><img alt="www.feifan.com" src="images/9.jpg"> </a> <b><font color="blue"><%=CommonUtility.getSysDate(1) %></font></b>
+				<a href="http://www.fanfei.tech" target="_blank"><img alt="www.fanfei.tech" src="images/9.jpg"> </a> <b><font color="blue"><%=CommonUtility.getSysDate(1) %></font></b>
 				<%-- <html:button property="modifypassword" styleClass="button" style="width:0px; ">帐号设置</html:button>
 				<html:button property="logout" styleClass="button" style="width:0px; ">退出</html:button> --%>
 				<br>
